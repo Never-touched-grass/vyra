@@ -15,7 +15,6 @@ public:
     vector<string> names;
     vector<vector<string>> codes;
 };
-//I suggest pasting this into a compiler(preferably without STDIN), make your edits, then paste it here
 int main() {
     vector<string> functionCode;
     string retrieveVarName;
