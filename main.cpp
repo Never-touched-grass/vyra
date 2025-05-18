@@ -190,15 +190,12 @@ int main() {
                 }
             }
             else if (cmd == "func") {
-                /*
-                **Future me will deal with these problems**
                 cout << "name:";
                 cin.ignore();
                 getline(cin, retrieveFuncName);
                 for(int i = 0; i < funcProps.names.size(); i++){
                 if(funcProps.names[i] == retrieveFuncName){
-                    found = true;
-                    funcProps.codes[i].clear();
+                    functionCode.clear();
                 while(true){
                 cout << "code:";
                 getline(cin, codeBlock);
@@ -207,11 +204,9 @@ int main() {
                 }
                 functionCode.push_back(codeBlock);
             }
-            funcProps.codes.push_back(functionCode);
+				funcProps.codes[i] = functionCode;
             }
             }
-            */
-                cout << "This feature will be available soon.\n";
             }
         }
         else {
