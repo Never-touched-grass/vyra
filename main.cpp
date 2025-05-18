@@ -19,6 +19,7 @@ public:
 };
 
 int main() {
+    string choice;
     string conditionVarName;
     string conditionVarType;
     string conditionOper;
@@ -37,7 +38,7 @@ int main() {
     string cmd;
     string type;
     string name;
-
+	int conditionNum;
     while (cmd != "break") {
         cout << ">";
         cin >> cmd;
@@ -224,24 +225,107 @@ int main() {
         }
         else if (cmd == "if") {
             cout << "if statements return true or false\n";
-            cout << "condition var name:";
-            getline(cin, conditionVarName);
-            cout << "condition var type:";
-            getline(cin, conditionVarType);
-            cout << "condition operator:";
-            cin >> conditionOper;
-            if (conditionVarType == "string" && conditionOper != "==") {
-                cout << "string comparison only supports == operator\n";
-            }
-            else {
+            cout << "num/var:";
+            cin >> choice;
+            if (choice == "num") {
+                cout << "num:";
+                cin >> conditionNum;
+                cout << "condition operator:";
+                cin >> conditionOper;
                 cout << "condition value:";
                 cin >> conditionVal;
+                if (conditionOper == "==") {
+                    if (conditionNum == stoi(conditionVal)) {
+                        cout << "true\n";
+                    }
+                    else {
+                        cout << "false\n";
+                    }
+                }
+                else if (conditionOper == "!=") {
+                    if (conditionNum != stoi(conditionVal)) {
+                        cout << "true\n";
+                    }
+                    else {
+                        cout << "false\n";
+                    }
+                }
+                else if (conditionOper == "<") {
+                    if (conditionNum < stoi(conditionVal)) {
+                        cout << "true\n";
+                    }
+                    else {
+                        cout << "false\n";
+                    }
+                }
+                else if (conditionOper == ">") {
+                    if (conditionNum > stoi(conditionVal)) {
+                        cout << "true\n";
+                    }
+                    else {
+                        cout << "false\n";
+                    }
+                }
             }
-            if (conditionVarType == "int" || conditionVarType == "float") {
-                for (int i = 0; i < varProps.names.size(); i++) {
-                    if (varProps.names[i] == conditionVarName) {
+            else if (choice == "var") {
+
+
+                cout << "condition var name:";
+                cin.ignore();
+                getline(cin, conditionVarName);
+                cout << "condition var type:";
+                getline(cin, conditionVarType);
+                cout << "condition operator:";
+                cin >> conditionOper;
+                if (conditionVarType == "string" && conditionOper != "==") {
+                    cout << "string comparison only supports == operator\n";
+                }
+                else {
+                    cout << "condition value:";
+                    cin >> conditionVal;
+                }
+                if (conditionVarType == "int" || conditionVarType == "float") {
+                    for (int i = 0; i < varProps.names.size(); i++) {
+                        if (varProps.names[i] == conditionVarName) {
+                            if (conditionOper == "==") {
+                                if (varProps.intVals[i] == stoi(conditionVal)) {
+                                    cout << "true\n";
+                                }
+                                else {
+                                    cout << "false\n";
+                                }
+                            }
+                            else if (conditionOper == "!=") {
+                                if (varProps.intVals[i] != stoi(conditionVal)) {
+                                    cout << "true\n";
+                                }
+                                else {
+                                    cout << "false\n";
+                                }
+                            }
+                            else if (conditionOper == "<") {
+                                if (varProps.intVals[i] < stoi(conditionVal)) {
+                                    cout << "true\n";
+                                }
+                                else {
+                                    cout << "false\n";
+                                }
+                            }
+                            else if (conditionOper == ">") {
+                                if (varProps.intVals[i] > stoi(conditionVal)) {
+                                    cout << "true\n";
+                                }
+                                else {
+                                    cout << "false\n";
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (conditionVarType == "string" || conditionVarType == "char") {
+                    for (int i = 0; i < varProps.names.size(); i++) {
                         if (conditionOper == "==") {
-                            if (varProps.intVals[i] == stoi(conditionVal)) {
+                            if (varProps.stringVals[i] == conditionVal) {
                                 cout << "true\n";
                             }
                             else {
@@ -249,48 +333,12 @@ int main() {
                             }
                         }
                         else if (conditionOper == "!=") {
-                            if (varProps.intVals[i] != stoi(conditionVal)) {
+                            if (varProps.stringVals[i] != conditionVal) {
                                 cout << "true\n";
                             }
                             else {
                                 cout << "false\n";
                             }
-                        }
-                        else if (conditionOper == "<") {
-                            if (varProps.intVals[i] < stoi(conditionVal)) {
-                                cout << "true\n";
-                            }
-                            else {
-                                cout << "false\n";
-                            }
-                        }
-                        else if (conditionOper == ">") {
-                            if (varProps.intVals[i] > stoi(conditionVal)) {
-                                cout << "true\n";
-                            }
-                            else {
-                                cout << "false\n";
-                            }
-                        }
-                    }
-                }
-            }
-            else if (conditionVarType == "string" || conditionVarType == "char") {
-                for (int i = 0; i < varProps.names.size(); i++) {
-                    if (conditionOper == "==") {
-                        if (varProps.stringVals[i] == conditionVal) {
-                            cout << "true\n";
-                        }
-                        else {
-                            cout << "false\n";
-                        }
-                    }
-                    else if (conditionOper == "!=") {
-                        if (varProps.stringVals[i] != conditionVal) {
-                            cout << "true\n";
-                        }
-                        else {
-                            cout << "false\n";
                         }
                     }
                 }
@@ -300,4 +348,4 @@ int main() {
             }
         }
     }
-} // sheesh. 303 lines of code
+}
