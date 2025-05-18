@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 using namespace std;
+
 class vars {
 public:
     vector<string> names;
@@ -10,12 +11,18 @@ public:
     vector<float> floatVals;
     vector<string> stringVals;
 };
+
 class funcs {
 public:
     vector<string> names;
     vector<vector<string>> codes;
 };
+
 int main() {
+    string conditionVarName;
+    string conditionVarType;
+    string conditionOper;
+    string conditionVal;
     vector<string> functionCode;
     string retrieveVarName;
     string retrieveFuncName;
@@ -30,6 +37,7 @@ int main() {
     string cmd;
     string type;
     string name;
+
     while (cmd != "break") {
         cout << ">";
         cin >> cmd;
@@ -38,6 +46,7 @@ int main() {
         char charPush;
         float floatPush;
         string stringPush;
+
         if (cmd == "print") {
             cout << ":";
             getline(cin, cmd);
@@ -96,9 +105,10 @@ int main() {
                 varProps.floatVals.push_back(floatPush);
             }
             else if (type == "char") {
+                cout << "char is one character\n";
                 cout << "char:";
                 cin >> charPush;
-                varProps.charVals.push_back(charPush);
+                    varProps.charVals.push_back(charPush);
             }
             else if (type == "string") {
                 cout << "string:";
@@ -110,9 +120,10 @@ int main() {
         else if (cmd == "func") {
             cout << "name:";
             getline(cin, newFname);
-            cmd.erase(0, cmd.find_first_not_of(" "));
-            cmd.erase(cmd.find_last_not_of(" ") + 1);
+            newFname.erase(0, newFname.find_first_not_of(" "));
+            newFname.erase(newFname.find_last_not_of(" ") + 1);
             funcProps.names.push_back(newFname);
+
             while (true) {
                 cout << "code:";
                 getline(cin, codeBlock);
@@ -128,6 +139,7 @@ int main() {
             getline(cin, fName);
             fName.erase(0, fName.find_first_not_of(" "));
             fName.erase(fName.find_last_not_of(" ") + 1);
+
             for (int i = 0; i < funcProps.names.size(); i++) {
                 if (funcProps.names[i] == fName) {
                     for (string line : funcProps.codes[i]) {
@@ -193,24 +205,99 @@ int main() {
                 cout << "name:";
                 cin.ignore();
                 getline(cin, retrieveFuncName);
-                for(int i = 0; i < funcProps.names.size(); i++){
-                if(funcProps.names[i] == retrieveFuncName){
-                    functionCode.clear();
-                while(true){
-                cout << "code:";
-                getline(cin, codeBlock);
-                if(codeBlock == "endFunc"){
-                    break;
+
+                for (int i = 0; i < funcProps.names.size(); i++) {
+                    if (funcProps.names[i] == retrieveFuncName) {
+                        functionCode.clear();
+                        while (true) {
+                            cout << "code:";
+                            getline(cin, codeBlock);
+                            if (codeBlock == "endFunc") {
+                                break;
+                            }
+                            functionCode.push_back(codeBlock);
+                        }
+                        funcProps.codes[i] = functionCode;
+                    }
                 }
-                functionCode.push_back(codeBlock);
-            }
-				funcProps.codes[i] = functionCode;
-            }
-            }
             }
         }
-        else {
-            cout << cmd << " is not a valid command\n";
+        else if (cmd == "if") {
+            cout << "if statements return true or false\n";
+            cout << "condition var name:";
+            getline(cin, conditionVarName);
+            cout << "condition var type:";
+            getline(cin, conditionVarType);
+            cout << "condition operator:";
+            cin >> conditionOper;
+            if (conditionVarType == "string" && conditionOper != "==") {
+                cout << "string comparison only supports == operator\n";
+            }
+            else {
+                cout << "condition value:";
+                cin >> conditionVal;
+            }
+            if (conditionVarType == "int" || conditionVarType == "float") {
+                for (int i = 0; i < varProps.names.size(); i++) {
+                    if (varProps.names[i] == conditionVarName) {
+                        if (conditionOper == "==") {
+                            if (varProps.intVals[i] == stoi(conditionVal)) {
+                                cout << "true\n";
+                            }
+                            else {
+                                cout << "false\n";
+                            }
+                        }
+                        else if (conditionOper == "!=") {
+                            if (varProps.intVals[i] != stoi(conditionVal)) {
+                                cout << "true\n";
+                            }
+                            else {
+                                cout << "false\n";
+                            }
+                        }
+                        else if (conditionOper == "<") {
+                            if (varProps.intVals[i] < stoi(conditionVal)) {
+                                cout << "true\n";
+                            }
+                            else {
+                                cout << "false\n";
+                            }
+                        }
+                        else if (conditionOper == ">") {
+                            if (varProps.intVals[i] > stoi(conditionVal)) {
+                                cout << "true\n";
+                            }
+                            else {
+                                cout << "false\n";
+                            }
+                        }
+                    }
+                }
+            }
+            else if (conditionVarType == "string" || conditionVarType == "char") {
+                for (int i = 0; i < varProps.names.size(); i++) {
+                    if (conditionOper == "==") {
+                        if (varProps.stringVals[i] == conditionVal) {
+                            cout << "true\n";
+                        }
+                        else {
+                            cout << "false\n";
+                        }
+                    }
+                    else if (conditionOper == "!=") {
+                        if (varProps.stringVals[i] != conditionVal) {
+                            cout << "true\n";
+                        }
+                        else {
+                            cout << "false\n";
+                        }
+                    }
+                }
+            }
+            else {
+                cout << cmd << " is not a valid command\n";
+            }
         }
     }
-} // sheesh. 206 lines of code.
+} // sheesh. 303 lines of code
