@@ -148,6 +148,9 @@ int main() {
                         if (x != std::string::npos) {
                             cout << line.substr(x + 6) << "\n";
                         }
+                        else {
+							cout << "ERROR: " << line << " is not a valid command\n";
+                        }
                     }
                 }
             }
@@ -277,7 +280,7 @@ int main() {
                 getline(cin, conditionVarType);
                 cout << "condition operator:";
                 cin >> conditionOper;
-                if (conditionVarType == "string" && conditionOper != "==") {
+                if ((conditionVarType == "string" && conditionOper != "==") && (conditionVarType == "string" && conditionOper == "!=")) {
                     cout << "string comparison only supports == operator\n";
                 }
                 else {
@@ -295,7 +298,7 @@ int main() {
                                     cout << "false\n";
                                 }
                             }
-                            else if (conditionOper == "!=") {
+                            else if (conditionOper == "!==") {
                                 if (varProps.intVals[i] != stoi(conditionVal)) {
                                     cout << "true\n";
                                 }
@@ -332,7 +335,7 @@ int main() {
                                 cout << "false\n";
                             }
                         }
-                        else if (conditionOper == "!=") {
+                        else if (conditionOper == "!==") {
                             if (varProps.stringVals[i] != conditionVal) {
                                 cout << "true\n";
                             }
